@@ -1,0 +1,2 @@
+# Oni's CDN
+yay
