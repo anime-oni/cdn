@@ -3,7 +3,113 @@
 <head>
 <meta charset="UTF-8">
 <title>Theme Preview</title>
-<link rel="stylesheet" href="https://raw.githubusercontent.com/anime-oni/cdn/refs/heads/main/web/main.csss">
+<style>
+  :root {
+    --bg: #13111C;
+    --surface: #1E1B29;
+    --accent: #8B5CF6;
+    --secondary: #EC4899;
+    --highlight: #06B6D4;
+    --text-primary: #FAF5FF;
+    --text-secondary: #C4B5FD;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+  }
+
+  body {
+    position: relative;
+    min-height: 100vh;
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--accent) 12%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--accent) 12%, transparent) 1px, transparent 1px);
+    background-size: 40px 40px;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0%, var(--bg) 75%);
+    pointer-events: none;
+  }
+
+  .card-wrap {
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-wrap::before {
+    content: "";
+    position: absolute;
+    inset: -60px;
+    background: radial-gradient(
+      circle at 30% 20%,
+      color-mix(in srgb, var(--accent) 55%, transparent),
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 80% 80%,
+      color-mix(in srgb, var(--secondary) 45%, transparent),
+      transparent 60%
+    );
+    filter: blur(40px);
+    z-index: -1;
+  }
+
+  .card {
+    width: 340px;
+    background-color: var(--surface);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    border-radius: 24px;
+    padding: 28px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+
+  .card-header {
+    color: var(--text-primary);
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    margin: 0 0 20px;
+  }
+
+  .photo-slot {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 18px;
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--accent) 20%, var(--surface)),
+      color-mix(in srgb, var(--highlight) 15%, var(--surface))
+    );
+    border: 1.5px dashed color-mix(in srgb, var(--text-secondary) 40%, transparent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+    overflow: hidden;
+  }
+
+  .photo-slot svg {
+    width: 36px;
+    height: 36px;
+    opacity: 0.6;
+  }
+</style>
 </head>
 <body>
 
