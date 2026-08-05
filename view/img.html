@@ -26,5 +26,8 @@
   const params = new URLSearchParams(document.location.search);
   const id = params.get("i");
   const name = params.get("n");
+  document
+            .getElementById('photo-slot')
+            .innerHTML = `<img href="${i}"></img>`;
 </script>
 </html>
