@@ -9,8 +9,8 @@
 
   <div class="card-wrap">
     <div class="card">
-      <h1 class="card-header">Profile</h1>
-      <div class="photo-slot">
+      <h1 class="card-header" id="card-header">Profile</h1>
+      <div class="photo-slot" id="photo-slot">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="3" y="5" width="18" height="14" rx="2"/>
           <circle cx="8.5" cy="10.5" r="1.5"/>
@@ -20,15 +20,51 @@
     </div>
   </div>
 
-</body>
-
 <script>
+  // Only images served from this CDN's /imgs folder are allowed.
+  // Use the raw content host, since the github.com/tree URL is an HTML page, not an image.
+  const ALLOWED_IMG_PREFIX = "https://raw.githubusercontent.com/anime-oni/cdn/main/imgs/";
+
   const params = new URLSearchParams(document.location.search);
-  const id = params.get("i");
-  const name = params.get("n");
-  document
-            .getElementById('photo-slot')
-            .innerHTML = `<img href="${i}"></img>`;
-  document.getElementById("card-header").innerHTML = decodeURIComponent(n);
+  const imgParam = params.get("i");
+  const nameParam = params.get("n");
+
+  const photoSlot = document.getElementById("photo-slot");
+  const header = document.getElementById("card-header");
+
+  // Validate the image URL against the allowlist before ever touching the DOM.
+  function resolveImageUrl(raw) {
+    if (!raw) return null;
+    let url;
+    try {
+      url = new URL(raw, document.location.href);
+    } catch {
+      return null;
+    }
+    return url.href.startsWith(ALLOWED_IMG_PREFIX) ? url.href : null;
+  }
+
+  const safeImgUrl = resolveImageUrl(imgParam);
+
+  if (safeImgUrl) {
+    const img = document.createElement("img");
+    img.src = safeImgUrl;
+    img.alt = "";
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "18px";
+    // If the allowed URL 404s or fails to load, keep the placeholder icon instead of a broken image.
+    img.onerror = () => { photoSlot.replaceChildren(photoSlot.firstElementChild); };
+    photoSlot.replaceChildren(img);
+  }
+  // If the param is missing or fails the allowlist check, the default placeholder icon stays as-is.
+
+  // Header text is set with textContent, never innerHTML, so it can never execute as markup.
+  if (nameParam !== null) {
+    header.textContent = nameParam;
+  }
 </script>
+
+</body>
 </html>
